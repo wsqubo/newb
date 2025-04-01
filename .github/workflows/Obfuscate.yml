@@ -5,8 +5,7 @@ on:
     branches:
       - main
   schedule:
-        # Runs everyday at 1:00 AM
-        - cron: "0 1 * * *"
+    - cron: "0 1 * * *"
 
 permissions:
   contents: write
@@ -36,17 +35,14 @@ jobs:
         run: |
           javascript-obfuscator origin.js --output _worker.js \
           --compact true \
-          --control-flow-flattening true \
-          --control-flow-flattening-threshold 1 \
-          --dead-code-injection true \
-          --dead-code-injection-threshold 1 \
           --identifier-names-generator hexadecimal \
           --rename-globals true \
           --string-array true \
-          --string-array-encoding 'rc4' \
-          --string-array-threshold 1 \
+          --string-array-encoding 'base64' \
+          --string-array-threshold 0.75 \
           --transform-object-keys true \
-          --unicode-escape-sequence true
+          --self-defending false \
+          --simplify true
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
